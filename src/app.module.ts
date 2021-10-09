@@ -6,6 +6,7 @@ import { User } from './users/user.entity';
 import { UsersModule } from './users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
+import { AuthModule } from './auth/auths.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import * as Joi from 'joi';
       inject: [ConfigService],
     }),
     UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
