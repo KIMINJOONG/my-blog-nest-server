@@ -8,6 +8,7 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
+import { IBasicResponse } from 'src/responseData';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
 
@@ -16,7 +17,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  getAll(): Promise<User[]> {
+  getAll(): Promise<IBasicResponse<User[]>> {
     return this.usersService.getAll();
   }
 }
