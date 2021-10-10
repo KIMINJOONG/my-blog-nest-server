@@ -7,6 +7,9 @@ import { UsersModule } from './users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
 import { AuthModule } from './auth/auths.module';
+import { BoardsModule } from './boards/boards.module';
+import { CategoriesModule } from './categories/categories.module';
+import { HashtagsModule } from './hashtags/hashtags.module';
 
 @Module({
   imports: [
@@ -36,6 +39,9 @@ import { AuthModule } from './auth/auths.module';
     }),
     UsersModule,
     AuthModule,
+    BoardsModule,
+    CategoriesModule,
+    HashtagsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

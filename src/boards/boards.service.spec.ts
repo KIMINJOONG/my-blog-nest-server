@@ -1,6 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { SearchTagsService } from '../searchTags/searchTags.service';
 import { Board } from './board.entity';
 import { BoardsService } from './boards.service';
 
