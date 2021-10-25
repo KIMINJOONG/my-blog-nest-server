@@ -1,4 +1,4 @@
-import { Column, HasMany, Model, Table } from 'sequelize-typescript';
+import { Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
 import { Board } from 'src/boards/board.entity';
 
 @Table({
@@ -6,11 +6,17 @@ import { Board } from 'src/boards/board.entity';
   collate: 'utf8mb4_general_ci',
 })
 export class Category extends Model {
-  @Column
-  code: number;
+  @Column({
+    type: DataType.INTEGER,
+    comment: '코드',
+  })
+  code!: number;
 
-  @Column
-  name: string;
+  @Column({
+    type: DataType.TEXT,
+    comment: '코드명',
+  })
+  name!: string;
 
   @HasMany(() => Board)
   boards?: Board;

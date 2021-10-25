@@ -11,11 +11,11 @@ export class CreateBoardDto {
   @ApiProperty({ type: String, description: '내용' })
   readonly content: string;
 
-  @IsNumber()
-  @ApiProperty({ type: String, description: '조회수' })
-  readonly view: string;
+  @IsString()
+  @ApiProperty({ type: String, description: '해쉬태그' })
+  readonly hashtags;
 
   @IsNumber()
   @ApiProperty({ type: Array, description: '카테고리 id' })
-  readonly categoryId: number[];
+  readonly categoryId: number;
 }

@@ -10,6 +10,10 @@ import { AuthModule } from './auth/auths.module';
 import { BoardsModule } from './boards/boards.module';
 import { CategoriesModule } from './categories/categories.module';
 import { HashtagsModule } from './hashtags/hashtags.module';
+import { Board } from './boards/board.entity';
+import { Category } from './categories/category.entity';
+import Hashtag from './hashtags/hashtag.entity';
+import BoardHashtag from './boardHashtags/BoardHashtag';
 
 @Module({
   imports: [
@@ -29,11 +33,11 @@ import { HashtagsModule } from './hashtags/hashtags.module';
       useFactory: (configService: ConfigService) => ({
         dialect: 'mysql',
         host: configService.get('DB_HOST'),
-        port: +configService.get('DB_PORT'),
+        port: configService.get('DB_PORT'),
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_DATABASE'),
-        models: [User],
+        models: [User, Board, Category, Hashtag, BoardHashtag],
       }),
       inject: [ConfigService],
     }),

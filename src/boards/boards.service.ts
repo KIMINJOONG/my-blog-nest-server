@@ -1,18 +1,19 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import Hashtag from 'src/hashtags/hashtag.entity';
 import { CategoriesService } from '../categories/categories.service';
 import { Board } from './board.entity';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { UpdateBoardDto } from './dto/update-board.dto';
+import { IBoardsResponse } from './type/response';
 
 @Injectable()
 export class BoardsService {
   constructor(private readonly categoriesService: CategoriesService) {}
-  async getAll(): Promise<Board[]> {
-    const boards = await Board.findAll({
-      include: ['category'],
-      order: [['id', 'desc']],
+  async getAll(): Promise<IBoardsResponse> {
+    const { count, rows } = await Board.findAndCountAll({
+      attributes: ['id', 'title', 'view', 'createdAt'],
     });
-    return boards;
+    return { totalCount: count, boards: rows };
   }
 
   async getOne(id: number): Promise<Board> {
@@ -40,6 +41,7 @@ export class BoardsService {
 
   async create(boardData: CreateBoardDto): Promise<Board> {
     try {
+      const hashtags: string[] = boardData.hashtags.match(/#[^\s]+/g);
       const board: Board = await Board.create({
         title: boardData.title,
         content: boardData.content,
@@ -47,6 +49,20 @@ export class BoardsService {
 
       const category = await this.categoriesService.getOne(1);
       board.category = category;
+
+      if (hashtags) {
+        await Promise.all(
+          hashtags.map(async (tag: string) => {
+            tag = tag.replace(/<(.|\n)*?>/g, '');
+            tag = tag.trim();
+            const newHashtags: Hashtag = await Hashtag.create({
+              name: tag.slice(1).toLowerCase(),
+            });
+            board.$add('boardHashtag', newHashtags);
+            return;
+          }),
+        );
+      }
 
       await board.save();
       return board;
