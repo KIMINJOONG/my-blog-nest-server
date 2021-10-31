@@ -6,12 +6,14 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Board } from './board.entity';
 import { BoardsService } from './boards.service';
 import { CreateBoardDto } from './dto/create-board.dto';
+import { GetBoarDto } from './dto/get-board.dto';
 import { UpdateBoardDto } from './dto/update-board.dto';
 import { IBoardsResponse } from './type/response';
 
@@ -20,8 +22,8 @@ export class BoardsController {
   constructor(private readonly boardsService: BoardsService) {}
 
   @Get()
-  getAll(): Promise<IBoardsResponse> {
-    return this.boardsService.getAll();
+  getAll(@Query() query: GetBoarDto): Promise<IBoardsResponse> {
+    return this.boardsService.getAll(query);
   }
 
   @Get('/:id')

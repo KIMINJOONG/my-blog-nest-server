@@ -3,15 +3,17 @@ import Hashtag from 'src/hashtags/hashtag.entity';
 import { CategoriesService } from '../categories/categories.service';
 import { Board } from './board.entity';
 import { CreateBoardDto } from './dto/create-board.dto';
+import { GetBoarDto } from './dto/get-board.dto';
 import { UpdateBoardDto } from './dto/update-board.dto';
 import { IBoardsResponse } from './type/response';
 
 @Injectable()
 export class BoardsService {
   constructor(private readonly categoriesService: CategoriesService) {}
-  async getAll(): Promise<IBoardsResponse> {
+  async getAll(query: GetBoarDto): Promise<IBoardsResponse> {
     const { count, rows } = await Board.findAndCountAll({
       attributes: ['id', 'title', 'view', 'createdAt'],
+      limit: parseInt(query.limit),
     });
     return { totalCount: count, boards: rows };
   }
