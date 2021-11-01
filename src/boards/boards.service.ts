@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { Category } from 'src/categories/category.entity';
 import Hashtag from 'src/hashtags/hashtag.entity';
 import { CategoriesService } from '../categories/categories.service';
 import { Board } from './board.entity';
@@ -12,6 +13,7 @@ export class BoardsService {
   constructor(private readonly categoriesService: CategoriesService) {}
   async getAll(query: GetBoarDto): Promise<IBoardsResponse> {
     const { count, rows } = await Board.findAndCountAll({
+      include: [{ model: Category }],
       attributes: ['id', 'title', 'view', 'createdAt'],
       limit: parseInt(query.limit),
     });
