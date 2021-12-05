@@ -12,11 +12,16 @@ import { IBoardsResponse } from './type/response';
 export class BoardsService {
   constructor(private readonly categoriesService: CategoriesService) {}
   async getAll(query: GetBoarDto): Promise<IBoardsResponse> {
-    const { count, rows } = await Board.findAndCountAll({
+    const queryObject = {
       include: [{ model: Category }],
       attributes: ['id', 'title', 'view', 'createdAt'],
+      where: {},
       limit: parseInt(query.limit),
-    });
+    };
+    if (query.category) {
+      queryObject.where = { categoryId: query.category };
+    }
+    const { count, rows } = await Board.findAndCountAll(queryObject);
     return { totalCount: count, boards: rows };
   }
 

@@ -15,11 +15,6 @@ import { LocalAuthGuard } from './local-auth.guard';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  // @Post('/login')
-  // join(@Body() joinData: JoinDto) {
-  //   return this.authService.join(joinData);
-  // }
-
   @Post('/join')
   join(@Body() joinData: JoinDto) {
     return this.authService.join(joinData);
