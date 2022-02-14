@@ -14,6 +14,7 @@ import { Board } from './boards/board.entity';
 import { Category } from './categories/category.entity';
 import Hashtag from './hashtags/hashtag.entity';
 import BoardHashtag from './boardHashtags/BoardHashtag';
+import { ImagesModule } from './images/images.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import BoardHashtag from './boardHashtags/BoardHashtag';
     BoardsModule,
     CategoriesModule,
     HashtagsModule,
+    ImagesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

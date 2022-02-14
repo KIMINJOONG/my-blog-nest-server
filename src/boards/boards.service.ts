@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { FindAndCountOptions } from 'sequelize/types';
 import { Category } from 'src/categories/category.entity';
 import Hashtag from 'src/hashtags/hashtag.entity';
 import { CategoriesService } from '../categories/categories.service';
@@ -12,15 +13,17 @@ import { IBoardsResponse } from './type/response';
 export class BoardsService {
   constructor(private readonly categoriesService: CategoriesService) {}
   async getAll(query: GetBoarDto): Promise<IBoardsResponse> {
-    const queryObject = {
+    const queryObject: FindAndCountOptions<any> = {
       include: [{ model: Category }],
       attributes: ['id', 'title', 'view', 'createdAt'],
       where: {},
+      order: [['id', 'desc']],
       limit: parseInt(query.limit),
     };
     if (query.category) {
       queryObject.where = { categoryId: query.category };
     }
+
     const { count, rows } = await Board.findAndCountAll(queryObject);
     return { totalCount: count, boards: rows };
   }
