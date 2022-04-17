@@ -24,6 +24,13 @@ export class BoardsService {
       queryObject.where = { categoryId: query.category };
     }
 
+    let offset = 0;
+    if (query.page && query.limit) {
+      offset = parseInt(query.limit, 10) * parseInt(query.page, 10);
+    }
+
+    queryObject.offset = offset;
+
     const { count, rows } = await Board.findAndCountAll(queryObject);
     return { totalCount: count, boards: rows };
   }
